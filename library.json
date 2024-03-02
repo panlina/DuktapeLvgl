@@ -1,0 +1,23 @@
+{
+  "name": "DuktapeLvgl",
+  "version": "0.0.0",
+  "description": "Duktape binding for lvgl",
+  "keywords": "duktape, lvgl",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/panlina/DuktapeLvgl.git"
+  },
+  "authors":
+  [
+    {
+      "name": "Jack Lu",
+      "email": "jacklu@jacklu.me"
+    }
+  ],
+  "license": "MIT",
+  "dependencies": {
+	"joeqread/JavaScript": "^0.0.1",
+    "lvgl/lvgl": "^8.3.9"
+  }
+}
