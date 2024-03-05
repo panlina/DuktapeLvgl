@@ -11,16 +11,27 @@ typedef struct _lv_event_dsc_t {
 	lv_event_code_t filter : 8;
 } lv_event_dsc_t;
 
-static duk_ret_t js_lv_btn_create(duk_context *ctx) {
-	auto btn = lv_btn_create(lv_scr_act());
-	duk_push_pointer(ctx, btn);
+static void lv_obj_init(lv_obj_t *obj);
 
-	lv_obj_add_event_cb(btn, [](lv_event_t *e) {
+static duk_ret_t js_lv_obj_create(duk_context *ctx) {
+	auto obj = lv_obj_create(lv_scr_act());
+	duk_push_pointer(ctx, obj);
+	lv_obj_init(obj);
+	return 1;
+}
+
+static void lv_obj_init(lv_obj_t *obj) {
+	lv_obj_add_event_cb(obj, [](lv_event_t *e) {
 		auto obj = lv_event_get_target(e);
 		for (auto i = 1; i < obj->spec_attr->event_dsc_cnt; i++)
 			delete (function<void(lv_event_t *)> *)obj->spec_attr->event_dsc[i].user_data;
 	}, LV_EVENT_DELETE, nullptr);
+}
 
+static duk_ret_t js_lv_btn_create(duk_context *ctx) {
+	auto btn = lv_btn_create(lv_scr_act());
+	duk_push_pointer(ctx, btn);
+	lv_obj_init(btn);
 	return 1;
 }
 
@@ -70,6 +81,8 @@ static const char *lvgljs =
 ;
 
 void duktape_lvgl_install(duk_context *ctx) {
+	duk_push_c_function(ctx, js_lv_obj_create, 0);
+	duk_put_global_string(ctx, "lv_obj_create");
 	duk_push_c_function(ctx, js_lv_btn_create, 0);
 	duk_put_global_string(ctx, "lv_btn_create");
 	duk_push_c_function(ctx, js_lv_obj_set_size, 3);

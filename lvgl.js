@@ -7,13 +7,17 @@ in VSCode the content between them is parsed successfully and should not bring p
 
 R"(
 lv = {};
+lv.Obj = function () {
+	this.pointer = lv_obj_create();
+};
+lv.Obj.prototype.setSize = function (w, h) {
+	lv_obj_set_size(this.pointer, w, h);
+};
+lv.Obj.prototype.addEventCb = function (filter, cb) {
+	lv_obj_add_event_cb(this.pointer, cb, filter);
+};
 lv.Btn = function () {
 	this.pointer = lv_btn_create();
 };
-lv.Btn.prototype.setSize = function (w, h) {
-	lv_obj_set_size(this.pointer, w, h);
-};
-lv.Btn.prototype.addEventCb = function (filter, cb) {
-	lv_obj_add_event_cb(this.pointer, cb, filter);
-};
+Object.setPrototypeOf(lv.Btn.prototype, lv.Obj.prototype);
 )"
