@@ -35,4 +35,11 @@ lv.Btn = function () {
 	this.pointer = lv_btn_create();
 };
 Object.setPrototypeOf(lv.Btn.prototype, lv.Obj.prototype);
+lv.Label = function () {
+	this.pointer = lv_label_create();
+};
+Object.setPrototypeOf(lv.Label.prototype, lv.Obj.prototype);
+lv.Label.prototype.setText = function (text) {
+	lv_label_set_text(this.pointer, text);
+};
 )"
