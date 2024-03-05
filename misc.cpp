@@ -1,0 +1,49 @@
+#include <duktape.h>
+#include <lvgl.h>
+
+void duktape_lvgl_define_alignments(duk_context *ctx) {
+	duk_push_uint(ctx, LV_ALIGN_DEFAULT);
+	duk_put_global_string(ctx, "LV_ALIGN_DEFAULT");
+	duk_push_uint(ctx, LV_ALIGN_TOP_LEFT);
+	duk_put_global_string(ctx, "LV_ALIGN_TOP_LEFT");
+	duk_push_uint(ctx, LV_ALIGN_TOP_MID);
+	duk_put_global_string(ctx, "LV_ALIGN_TOP_MID");
+	duk_push_uint(ctx, LV_ALIGN_TOP_RIGHT);
+	duk_put_global_string(ctx, "LV_ALIGN_TOP_RIGHT");
+	duk_push_uint(ctx, LV_ALIGN_BOTTOM_LEFT);
+	duk_put_global_string(ctx, "LV_ALIGN_BOTTOM_LEFT");
+	duk_push_uint(ctx, LV_ALIGN_BOTTOM_MID);
+	duk_put_global_string(ctx, "LV_ALIGN_BOTTOM_MID");
+	duk_push_uint(ctx, LV_ALIGN_BOTTOM_RIGHT);
+	duk_put_global_string(ctx, "LV_ALIGN_BOTTOM_RIGHT");
+	duk_push_uint(ctx, LV_ALIGN_LEFT_MID);
+	duk_put_global_string(ctx, "LV_ALIGN_LEFT_MID");
+	duk_push_uint(ctx, LV_ALIGN_RIGHT_MID);
+	duk_put_global_string(ctx, "LV_ALIGN_RIGHT_MID");
+	duk_push_uint(ctx, LV_ALIGN_CENTER);
+	duk_put_global_string(ctx, "LV_ALIGN_CENTER");
+	duk_push_uint(ctx, LV_ALIGN_OUT_TOP_LEFT);
+	duk_put_global_string(ctx, "LV_ALIGN_OUT_TOP_LEFT");
+	duk_push_uint(ctx, LV_ALIGN_OUT_TOP_MID);
+	duk_put_global_string(ctx, "LV_ALIGN_OUT_TOP_MID");
+	duk_push_uint(ctx, LV_ALIGN_OUT_TOP_RIGHT);
+	duk_put_global_string(ctx, "LV_ALIGN_OUT_TOP_RIGHT");
+	duk_push_uint(ctx, LV_ALIGN_OUT_BOTTOM_LEFT);
+	duk_put_global_string(ctx, "LV_ALIGN_OUT_BOTTOM_LEFT");
+	duk_push_uint(ctx, LV_ALIGN_OUT_BOTTOM_MID);
+	duk_put_global_string(ctx, "LV_ALIGN_OUT_BOTTOM_MID");
+	duk_push_uint(ctx, LV_ALIGN_OUT_BOTTOM_RIGHT);
+	duk_put_global_string(ctx, "LV_ALIGN_OUT_BOTTOM_RIGHT");
+	duk_push_uint(ctx, LV_ALIGN_OUT_LEFT_TOP);
+	duk_put_global_string(ctx, "LV_ALIGN_OUT_LEFT_TOP");
+	duk_push_uint(ctx, LV_ALIGN_OUT_LEFT_MID);
+	duk_put_global_string(ctx, "LV_ALIGN_OUT_LEFT_MID");
+	duk_push_uint(ctx, LV_ALIGN_OUT_LEFT_BOTTOM);
+	duk_put_global_string(ctx, "LV_ALIGN_OUT_LEFT_BOTTOM");
+	duk_push_uint(ctx, LV_ALIGN_OUT_RIGHT_TOP);
+	duk_put_global_string(ctx, "LV_ALIGN_OUT_RIGHT_TOP");
+	duk_push_uint(ctx, LV_ALIGN_OUT_RIGHT_MID);
+	duk_put_global_string(ctx, "LV_ALIGN_OUT_RIGHT_MID");
+	duk_push_uint(ctx, LV_ALIGN_OUT_RIGHT_BOTTOM);
+	duk_put_global_string(ctx, "LV_ALIGN_OUT_RIGHT_BOTTOM");
+}

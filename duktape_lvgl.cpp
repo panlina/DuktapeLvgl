@@ -43,6 +43,13 @@ static duk_ret_t js_lv_obj_set_size(duk_context *ctx) {
 	return 0;
 }
 
+static duk_ret_t js_lv_obj_set_align(duk_context *ctx) {
+	auto obj = (lv_obj_t *)duk_get_pointer(ctx, 0);
+	auto align = (lv_align_t)duk_get_uint(ctx, 1);
+	lv_obj_set_align(obj, align);
+	return 0;
+}
+
 static unsigned long stashId = 0;
 
 static duk_ret_t js_lv_obj_add_event_cb(duk_context *ctx) {
@@ -87,10 +94,15 @@ void duktape_lvgl_install(duk_context *ctx) {
 	duk_put_global_string(ctx, "lv_btn_create");
 	duk_push_c_function(ctx, js_lv_obj_set_size, 3);
 	duk_put_global_string(ctx, "lv_obj_set_size");
+	duk_push_c_function(ctx, js_lv_obj_set_align, 2);
+	duk_put_global_string(ctx, "lv_obj_set_align");
 	duk_push_c_function(ctx, js_lv_obj_add_event_cb, 3);
 	duk_put_global_string(ctx, "lv_obj_add_event_cb");
 	duk_push_uint(ctx, LV_EVENT_CLICKED);
 	duk_put_global_string(ctx, "LV_EVENT_CLICKED");
+
+	void duktape_lvgl_define_alignments(duk_context * ctx);
+	duktape_lvgl_define_alignments(ctx);
 
 	duk_push_string(ctx, lvgljs);
 	duk_int_t rc = duk_peval(ctx);

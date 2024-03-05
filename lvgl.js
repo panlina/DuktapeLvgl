@@ -13,6 +13,9 @@ lv.Obj = function () {
 lv.Obj.prototype.setSize = function (w, h) {
 	lv_obj_set_size(this.pointer, w, h);
 };
+lv.Obj.prototype.setAlign = function (align) {
+	lv_obj_set_align(this.pointer, align);
+};
 lv.Obj.prototype.addEventCb = function (filter, cb) {
 	lv_obj_add_event_cb(this.pointer, cb, filter);
 };
