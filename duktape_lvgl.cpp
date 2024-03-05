@@ -50,6 +50,22 @@ static duk_ret_t js_lv_obj_set_align(duk_context *ctx) {
 	return 0;
 }
 
+static duk_ret_t js_lv_obj_set_style_bg_color(duk_context *ctx) {
+	auto obj = (lv_obj_t *)duk_get_pointer(ctx, 0);
+	auto value = duk_get_uint(ctx, 1);
+	auto selector = duk_get_uint(ctx, 2);
+	lv_obj_set_style_bg_color(obj, lv_color_t{.full = value}, selector);
+	return 0;
+}
+
+static duk_ret_t js_lv_obj_set_style_text_color(duk_context *ctx) {
+	auto obj = (lv_obj_t *)duk_get_pointer(ctx, 0);
+	auto value = duk_get_uint(ctx, 1);
+	auto selector = duk_get_uint(ctx, 2);
+	lv_obj_set_style_text_color(obj, lv_color_t{.full = value}, selector);
+	return 0;
+}
+
 static unsigned long stashId = 0;
 
 static duk_ret_t js_lv_obj_add_event_cb(duk_context *ctx) {
@@ -83,6 +99,13 @@ static duk_ret_t js_lv_obj_add_event_cb(duk_context *ctx) {
 	return 0;
 }
 
+static duk_ret_t js_lv_color_hex(duk_context *ctx) {
+	auto hex = (uint32_t)duk_get_uint(ctx, 0);
+	auto color = lv_color_hex(hex);
+	duk_push_uint(ctx, color.full);
+	return 1;
+}
+
 static const char *lvgljs =
 	#include "lvgl.js"
 ;
@@ -96,10 +119,18 @@ void duktape_lvgl_install(duk_context *ctx) {
 	duk_put_global_string(ctx, "lv_obj_set_size");
 	duk_push_c_function(ctx, js_lv_obj_set_align, 2);
 	duk_put_global_string(ctx, "lv_obj_set_align");
+	duk_push_c_function(ctx, js_lv_obj_set_style_bg_color, 3);
+	duk_put_global_string(ctx, "lv_obj_set_style_bg_color");
+	duk_push_c_function(ctx, js_lv_obj_set_style_text_color, 3);
+	duk_put_global_string(ctx, "lv_obj_set_style_text_color");
 	duk_push_c_function(ctx, js_lv_obj_add_event_cb, 3);
 	duk_put_global_string(ctx, "lv_obj_add_event_cb");
+	duk_push_c_function(ctx, js_lv_color_hex, 1);
+	duk_put_global_string(ctx, "lv_color_hex");
 	duk_push_uint(ctx, LV_EVENT_CLICKED);
 	duk_put_global_string(ctx, "LV_EVENT_CLICKED");
+	duk_push_uint(ctx, LV_PART_MAIN);
+	duk_put_global_string(ctx, "LV_PART_MAIN");
 
 	void duktape_lvgl_define_alignments(duk_context * ctx);
 	duktape_lvgl_define_alignments(ctx);
