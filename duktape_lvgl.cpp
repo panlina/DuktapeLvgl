@@ -58,6 +58,14 @@ static duk_ret_t js_lv_obj_set_style_border_width(duk_context *ctx) {
 	return 0;
 }
 
+static duk_ret_t js_lv_obj_set_style_pad_all(duk_context *ctx) {
+	auto obj = (lv_obj_t *)duk_get_pointer(ctx, 0);
+	auto value = duk_get_int(ctx, 1);
+	auto selector = duk_get_uint(ctx, 2);
+	lv_obj_set_style_pad_all(obj, value, selector);
+	return 0;
+}
+
 static duk_ret_t js_lv_obj_set_style_bg_color(duk_context *ctx) {
 	auto obj = (lv_obj_t *)duk_get_pointer(ctx, 0);
 	auto value = duk_get_uint(ctx, 1);
@@ -129,6 +137,8 @@ void duktape_lvgl_install(duk_context *ctx) {
 	duk_put_global_string(ctx, "lv_obj_set_align");
 	duk_push_c_function(ctx, js_lv_obj_set_style_border_width, 3);
 	duk_put_global_string(ctx, "lv_obj_set_style_border_width");
+	duk_push_c_function(ctx, js_lv_obj_set_style_pad_all, 3);
+	duk_put_global_string(ctx, "lv_obj_set_style_pad_all");
 	duk_push_c_function(ctx, js_lv_obj_set_style_bg_color, 3);
 	duk_put_global_string(ctx, "lv_obj_set_style_bg_color");
 	duk_push_c_function(ctx, js_lv_obj_set_style_text_color, 3);

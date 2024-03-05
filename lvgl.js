@@ -19,6 +19,9 @@ lv.Obj.prototype.setAlign = function (align) {
 lv.Obj.prototype.setStyleBorderWidth = function (value, selector) {
 	lv_obj_set_style_border_width(this.pointer, value, selector);
 };
+lv.Obj.prototype.setStylePadAll = function (value, selector) {
+	lv_obj_set_style_pad_all(this.pointer, value, selector);
+};
 lv.Obj.prototype.setStyleBgColor = function (color, selector) {
 	lv_obj_set_style_bg_color(this.pointer, color, selector);
 };
