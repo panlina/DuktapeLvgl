@@ -13,4 +13,7 @@ lv.Btn = function () {
 lv.Btn.prototype.setSize = function (w, h) {
 	lv_obj_set_size(this.pointer, w, h);
 };
+lv.Btn.prototype.addEventCb = function (filter, cb) {
+	lv_obj_add_event_cb(this.pointer, cb, filter);
+};
 )"
