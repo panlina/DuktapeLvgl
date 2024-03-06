@@ -7,8 +7,8 @@ in VSCode the content between them is parsed successfully and should not bring p
 
 R"(
 lv = {};
-lv.Obj = function () {
-	this.pointer = lv_obj_create();
+lv.Obj = function (parent) {
+	this.pointer = lv_obj_create(typeof parent == 'pointer' ? parent : parent.pointer);
 };
 lv.Obj.prototype.setSize = function (w, h) {
 	lv_obj_set_size(this.pointer, w, h);
@@ -31,12 +31,12 @@ lv.Obj.prototype.setStyleTextColor = function (color, selector) {
 lv.Obj.prototype.addEventCb = function (filter, cb) {
 	lv_obj_add_event_cb(this.pointer, cb, filter);
 };
-lv.Btn = function () {
-	this.pointer = lv_btn_create();
+lv.Btn = function (parent) {
+	this.pointer = lv_btn_create(typeof parent == 'pointer' ? parent : parent.pointer);
 };
 Object.setPrototypeOf(lv.Btn.prototype, lv.Obj.prototype);
-lv.Label = function () {
-	this.pointer = lv_label_create();
+lv.Label = function (parent) {
+	this.pointer = lv_label_create(typeof parent == 'pointer' ? parent : parent.pointer);
 };
 Object.setPrototypeOf(lv.Label.prototype, lv.Obj.prototype);
 lv.Label.prototype.setText = function (text) {

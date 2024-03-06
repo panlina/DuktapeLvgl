@@ -14,7 +14,8 @@ typedef struct _lv_event_dsc_t {
 static void lv_obj_init(lv_obj_t *obj);
 
 static duk_ret_t js_lv_obj_create(duk_context *ctx) {
-	auto obj = lv_obj_create(lv_scr_act());
+	auto parent = (lv_obj_t *)duk_get_pointer(ctx, 0);
+	auto obj = lv_obj_create(parent);
 	duk_push_pointer(ctx, obj);
 	lv_obj_init(obj);
 	return 1;
@@ -29,14 +30,16 @@ static void lv_obj_init(lv_obj_t *obj) {
 }
 
 static duk_ret_t js_lv_btn_create(duk_context *ctx) {
-	auto btn = lv_btn_create(lv_scr_act());
+	auto parent = (lv_obj_t *)duk_get_pointer(ctx, 0);
+	auto btn = lv_btn_create(parent);
 	duk_push_pointer(ctx, btn);
 	lv_obj_init(btn);
 	return 1;
 }
 
 static duk_ret_t js_lv_label_create(duk_context *ctx) {
-	auto label = lv_label_create(lv_scr_act());
+	auto parent = (lv_obj_t *)duk_get_pointer(ctx, 0);
+	auto label = lv_label_create(parent);
 	duk_push_pointer(ctx, label);
 	lv_obj_init(label);
 	return 1;
@@ -141,11 +144,11 @@ static const char *lvgljs =
 ;
 
 void duktape_lvgl_install(duk_context *ctx) {
-	duk_push_c_function(ctx, js_lv_obj_create, 0);
+	duk_push_c_function(ctx, js_lv_obj_create, 1);
 	duk_put_global_string(ctx, "lv_obj_create");
-	duk_push_c_function(ctx, js_lv_btn_create, 0);
+	duk_push_c_function(ctx, js_lv_btn_create, 1);
 	duk_put_global_string(ctx, "lv_btn_create");
-	duk_push_c_function(ctx, js_lv_label_create, 0);
+	duk_push_c_function(ctx, js_lv_label_create, 1);
 	duk_put_global_string(ctx, "lv_label_create");
 	duk_push_c_function(ctx, js_lv_obj_set_size, 3);
 	duk_put_global_string(ctx, "lv_obj_set_size");
