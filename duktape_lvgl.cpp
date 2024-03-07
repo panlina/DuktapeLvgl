@@ -129,13 +129,14 @@ static duk_ret_t js_lv_obj_add_event_cb(duk_context *ctx) {
 		char s[8];
 		itoa(stashId, s, 10);
 		duk_get_prop_string(ctx, -1, s);
-		duk_call(ctx, 0);
+		duk_push_pointer(ctx, e);
+		duk_call(ctx, 1);
 		duk_pop_2(ctx);
 	});
 	lv_obj_add_event_cb(
 		obj, [](lv_event_t *e) {
 			auto user_data = (function<void(lv_event_t *)> *)lv_event_get_user_data(e);
-			(*user_data)(nullptr);
+			(*user_data)(e);
 		},
 		filter, user_data
 	);
@@ -148,6 +149,27 @@ static duk_ret_t js_lv_label_set_text(duk_context *ctx) {
 	auto text = duk_get_string(ctx, 1);
 	lv_label_set_text(label, text);
 	return 0;
+}
+
+static duk_ret_t js_lv_event_get_target(duk_context *ctx) {
+	auto event = (lv_event_t *)duk_get_pointer(ctx, 0);
+	auto target = lv_event_get_target(event);
+	duk_push_pointer(ctx, target);
+	return 1;
+}
+
+static duk_ret_t js_lv_event_get_current_target(duk_context *ctx) {
+	auto event = (lv_event_t *)duk_get_pointer(ctx, 0);
+	auto target = lv_event_get_current_target(event);
+	duk_push_pointer(ctx, target);
+	return 1;
+}
+
+static duk_ret_t js_lv_event_get_code(duk_context *ctx) {
+	auto event = (lv_event_t *)duk_get_pointer(ctx, 0);
+	auto code = lv_event_get_code(event);
+	duk_push_uint(ctx, code);
+	return 1;
 }
 
 static duk_ret_t js_lv_color_hex(duk_context *ctx) {
@@ -190,6 +212,12 @@ void duktape_lvgl_install(duk_context *ctx) {
 	duk_put_global_string(ctx, "lv_obj_add_event_cb");
 	duk_push_c_function(ctx, js_lv_label_set_text, 2);
 	duk_put_global_string(ctx, "lv_label_set_text");
+	duk_push_c_function(ctx, js_lv_event_get_target, 1);
+	duk_put_global_string(ctx, "lv_event_get_target");
+	duk_push_c_function(ctx, js_lv_event_get_current_target, 1);
+	duk_put_global_string(ctx, "lv_event_get_current_target");
+	duk_push_c_function(ctx, js_lv_event_get_code, 1);
+	duk_put_global_string(ctx, "lv_event_get_code");
 	duk_push_c_function(ctx, js_lv_color_hex, 1);
 	duk_put_global_string(ctx, "lv_color_hex");
 	duk_push_uint(ctx, LV_EVENT_CLICKED);
