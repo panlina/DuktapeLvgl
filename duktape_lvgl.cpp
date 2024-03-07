@@ -172,6 +172,25 @@ static duk_ret_t js_lv_event_get_code(duk_context *ctx) {
 	return 1;
 }
 
+static duk_ret_t js_lv_event_get_indev(duk_context *ctx) {
+	auto event = (lv_event_t *)duk_get_pointer(ctx, 0);
+	auto indev = lv_event_get_indev(event);
+	duk_push_pointer(ctx, indev);
+	return 1;
+}
+
+static duk_ret_t js_lv_indev_get_point(duk_context *ctx) {
+	auto indev = (lv_indev_t *)duk_get_pointer(ctx, 0);
+	auto obj = duk_push_object(ctx);
+	lv_point_t point;
+	lv_indev_get_point(indev, &point);
+	duk_push_int(ctx, point.x);
+	duk_put_prop_string(ctx, obj, "x");
+	duk_push_int(ctx, point.y);
+	duk_put_prop_string(ctx, obj, "y");
+	return 1;
+}
+
 static duk_ret_t js_lv_color_hex(duk_context *ctx) {
 	auto hex = (uint32_t)duk_get_uint(ctx, 0);
 	auto color = lv_color_hex(hex);
@@ -218,6 +237,10 @@ void duktape_lvgl_install(duk_context *ctx) {
 	duk_put_global_string(ctx, "lv_event_get_current_target");
 	duk_push_c_function(ctx, js_lv_event_get_code, 1);
 	duk_put_global_string(ctx, "lv_event_get_code");
+	duk_push_c_function(ctx, js_lv_event_get_indev, 1);
+	duk_put_global_string(ctx, "lv_event_get_indev");
+	duk_push_c_function(ctx, js_lv_indev_get_point, 1);
+	duk_put_global_string(ctx, "lv_indev_get_point");
 	duk_push_c_function(ctx, js_lv_color_hex, 1);
 	duk_put_global_string(ctx, "lv_color_hex");
 	duk_push_uint(ctx, LV_EVENT_CLICKED);
