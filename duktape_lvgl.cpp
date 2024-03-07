@@ -199,6 +199,8 @@ void duktape_lvgl_install(duk_context *ctx) {
 
 	void duktape_lvgl_define_alignments(duk_context * ctx);
 	duktape_lvgl_define_alignments(ctx);
+	void duktape_lvgl_define_events(duk_context * ctx);
+	duktape_lvgl_define_events(ctx);
 
 	duk_push_string(ctx, lvgljs);
 	duk_int_t rc = duk_peval(ctx);
