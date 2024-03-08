@@ -35,15 +35,33 @@ static duk_ret_t js_lv_obj_create(duk_context *ctx) {
 	auto parent = (lv_obj_t *)duk_get_pointer(ctx, 0);
 	auto obj = lv_obj_create(parent);
 	duk_push_pointer(ctx, obj);
+	lv_obj_set_user_data(obj, ctx);
 	lv_obj_init(obj);
 	return 1;
 }
 
+/*
+	Duktape lvgl objs use `user_data` as a general means to maintain event callback contexts,
+	eliminating any need to pass context data explicitly.
+
+	Callbacks are put to the stash, using the addresses of wrapper `std::function` instances
+	as keys, and are deleted when the object is deleted.
+
+	The Duktape context is set as the obj's `user_data`.
+*/
 static void lv_obj_init(lv_obj_t *obj) {
 	lv_obj_add_event_cb(obj, [](lv_event_t *e) {
 		auto obj = lv_event_get_target(e);
-		for (auto i = 1; i < obj->spec_attr->event_dsc_cnt; i++)
-			delete (function<void(lv_event_t *)> *)obj->spec_attr->event_dsc[i].user_data;
+		auto ctx = (duk_context *)lv_obj_get_user_data(obj);
+		duk_push_global_stash(ctx);
+		for (auto i = 1; i < obj->spec_attr->event_dsc_cnt; i++) {
+			auto user_data = (function<void(lv_event_t *)> *)obj->spec_attr->event_dsc[i].user_data;
+			char stashKey[16];
+			sprintf(stashKey, "lv_cb_%x", user_data);
+			duk_del_prop_string(ctx, -1, stashKey);
+			delete user_data;
+		}
+		duk_pop(ctx);
 	}, LV_EVENT_DELETE, nullptr);
 }
 
@@ -51,6 +69,7 @@ static duk_ret_t js_lv_btn_create(duk_context *ctx) {
 	auto parent = (lv_obj_t *)duk_get_pointer(ctx, 0);
 	auto btn = lv_btn_create(parent);
 	duk_push_pointer(ctx, btn);
+	lv_obj_set_user_data(btn, ctx);
 	lv_obj_init(btn);
 	return 1;
 }
@@ -59,6 +78,7 @@ static duk_ret_t js_lv_label_create(duk_context *ctx) {
 	auto parent = (lv_obj_t *)duk_get_pointer(ctx, 0);
 	auto label = lv_label_create(parent);
 	duk_push_pointer(ctx, label);
+	lv_obj_set_user_data(label, ctx);
 	lv_obj_init(label);
 	return 1;
 }
@@ -126,29 +146,26 @@ static duk_ret_t js_lv_obj_set_style_text_font(duk_context *ctx) {
 	return 0;
 }
 
-static unsigned long stashId = 0;
-
 static duk_ret_t js_lv_obj_add_event_cb(duk_context *ctx) {
 	auto obj = (lv_obj_t *)duk_get_pointer(ctx, 0);
+	auto filter = (lv_event_code_t)duk_get_uint(ctx, 2);
 	duk_push_global_stash(ctx);
 	duk_dup(ctx, 1);
-	auto filter = (lv_event_code_t)duk_get_uint(ctx, 2);
 	// [ obj, cb, filter, stash, cb]
-	char s[8];
-	itoa(stashId, s, 10);
-	duk_put_prop_string(ctx, -2, s);
-	// [ obj, cb, filter, stash ]
-	auto _stashId = stashId;
 	auto user_data = new function<void(lv_event_t *)>([=](lv_event_t *e) {
-		auto stashId = _stashId;
+		auto user_data = lv_event_get_user_data(e);
 		duk_push_global_stash(ctx);
-		char s[8];
-		itoa(stashId, s, 10);
-		duk_get_prop_string(ctx, -1, s);
+		char stashKey[16];
+		sprintf(stashKey, "lv_cb_%x", user_data);
+		duk_get_prop_string(ctx, -1, stashKey);
 		duk_push_pointer(ctx, e);
 		duk_call(ctx, 1);
 		duk_pop_2(ctx);
 	});
+	char stashKey[16];
+	sprintf(stashKey, "lv_cb_%x", user_data);
+	duk_put_prop_string(ctx, -2, stashKey);
+	// [ obj, cb, filter, stash ]
 	lv_obj_add_event_cb(
 		obj, [](lv_event_t *e) {
 			auto user_data = (function<void(lv_event_t *)> *)lv_event_get_user_data(e);
@@ -156,7 +173,6 @@ static duk_ret_t js_lv_obj_add_event_cb(duk_context *ctx) {
 		},
 		filter, user_data
 	);
-	stashId++;
 	return 0;
 }
 
