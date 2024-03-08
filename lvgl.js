@@ -31,6 +31,9 @@ lv.Obj.prototype.setStyleTextColor = function (color, selector) {
 lv.Obj.prototype.addEventCb = function (filter, cb) {
 	lv_obj_add_event_cb(this.pointer, cb, filter);
 };
+lv.Obj.prototype.del = function () {
+	lv_obj_del(this.pointer);
+};
 lv.Btn = function (parent) {
 	this.pointer = lv_btn_create(typeof parent == 'pointer' ? parent : parent.pointer);
 };
