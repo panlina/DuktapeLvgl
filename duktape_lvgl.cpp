@@ -118,6 +118,14 @@ static duk_ret_t js_lv_obj_set_style_text_color(duk_context *ctx) {
 	return 0;
 }
 
+static duk_ret_t js_lv_obj_set_style_text_font(duk_context *ctx) {
+	auto obj = (lv_obj_t *)duk_get_pointer(ctx, 0);
+	auto value = (lv_font_t *)duk_get_pointer(ctx, 1);
+	auto selector = duk_get_uint(ctx, 2);
+	lv_obj_set_style_text_font(obj, value, selector);
+	return 0;
+}
+
 static unsigned long stashId = 0;
 
 static duk_ret_t js_lv_obj_add_event_cb(duk_context *ctx) {
@@ -243,6 +251,8 @@ void duktape_lvgl_install(duk_context *ctx) {
 	duk_put_global_string(ctx, "lv_obj_set_style_bg_color");
 	duk_push_c_function(ctx, js_lv_obj_set_style_text_color, 3);
 	duk_put_global_string(ctx, "lv_obj_set_style_text_color");
+	duk_push_c_function(ctx, js_lv_obj_set_style_text_font, 3);
+	duk_put_global_string(ctx, "lv_obj_set_style_text_font");
 	duk_push_c_function(ctx, js_lv_obj_add_event_cb, 3);
 	duk_put_global_string(ctx, "lv_obj_add_event_cb");
 	duk_push_c_function(ctx, js_lv_obj_del, 1);
