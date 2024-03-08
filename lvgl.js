@@ -13,6 +13,9 @@ lv.Obj = function (parent) {
 lv.Obj.prototype.setSize = function (w, h) {
 	lv_obj_set_size(this.pointer, w, h);
 };
+lv.Obj.prototype.setPos = function (x, y) {
+	lv_obj_set_pos(this.pointer, x, y);
+};
 lv.Obj.prototype.setAlign = function (align) {
 	lv_obj_set_align(this.pointer, align);
 };

@@ -71,6 +71,14 @@ static duk_ret_t js_lv_obj_set_size(duk_context *ctx) {
 	return 0;
 }
 
+static duk_ret_t js_lv_obj_set_pos(duk_context *ctx) {
+	auto obj = (lv_obj_t *)duk_get_pointer(ctx, 0);
+	auto x = (lv_coord_t)duk_get_int(ctx, 1);
+	auto y = (lv_coord_t)duk_get_int(ctx, 2);
+	lv_obj_set_pos(obj, x, y);
+	return 0;
+}
+
 static duk_ret_t js_lv_obj_set_align(duk_context *ctx) {
 	auto obj = (lv_obj_t *)duk_get_pointer(ctx, 0);
 	auto align = (lv_align_t)duk_get_uint(ctx, 1);
@@ -223,6 +231,8 @@ void duktape_lvgl_install(duk_context *ctx) {
 	duk_put_global_string(ctx, "lv_label_create");
 	duk_push_c_function(ctx, js_lv_obj_set_size, 3);
 	duk_put_global_string(ctx, "lv_obj_set_size");
+	duk_push_c_function(ctx, js_lv_obj_set_pos, 3);
+	duk_put_global_string(ctx, "lv_obj_set_pos");
 	duk_push_c_function(ctx, js_lv_obj_set_align, 2);
 	duk_put_global_string(ctx, "lv_obj_set_align");
 	duk_push_c_function(ctx, js_lv_obj_set_style_border_width, 3);
