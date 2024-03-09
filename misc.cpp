@@ -154,3 +154,14 @@ void duktape_lvgl_define_events(duk_context *ctx) {
 	duk_push_uint(ctx, LV_EVENT_PREPROCESS);
 	duk_put_global_string(ctx, "LV_EVENT_PREPROCESS");
 }
+
+void duktape_lvgl_define_fonts(duk_context *ctx) {
+	duk_push_pointer(ctx, const_cast<lv_font_t *>(&lv_font_montserrat_14));
+	duk_put_global_string(ctx, "lv_font_montserrat_14");
+	duk_push_pointer(ctx, const_cast<lv_font_t *>(&lv_font_montserrat_24));
+	duk_put_global_string(ctx, "lv_font_montserrat_24");
+	duk_push_pointer(ctx, const_cast<lv_font_t *>(&lv_font_montserrat_48));
+	duk_put_global_string(ctx, "lv_font_montserrat_48");
+	duk_push_pointer(ctx, const_cast<lv_font_t *>(LV_FONT_DEFAULT));
+	duk_put_global_string(ctx, "LV_FONT_DEFAULT");
+}
