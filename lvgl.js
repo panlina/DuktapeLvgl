@@ -40,6 +40,9 @@ lv.Obj.prototype.addEventCb = function (filter, cb) {
 lv.Obj.prototype.del = function () {
 	lv_obj_del(this.pointer);
 };
+lv.Obj.prototype.delAsync = function () {
+	lv_obj_del_async(this.pointer);
+};
 lv.Btn = function (parent) {
 	this.pointer = lv_btn_create(typeof parent == 'pointer' ? parent : parent.pointer);
 };

@@ -182,6 +182,12 @@ static duk_ret_t js_lv_obj_del(duk_context *ctx) {
 	return 0;
 }
 
+static duk_ret_t js_lv_obj_del_async(duk_context *ctx) {
+	auto obj = (lv_obj_t *)duk_get_pointer(ctx, 0);
+	lv_obj_del_async(obj);
+	return 0;
+}
+
 static duk_ret_t js_lv_label_set_text(duk_context *ctx) {
 	auto label = (lv_obj_t *)duk_get_pointer(ctx, 0);
 	auto text = duk_get_string(ctx, 1);
@@ -273,6 +279,8 @@ void duktape_lvgl_install(duk_context *ctx) {
 	duk_put_global_string(ctx, "lv_obj_add_event_cb");
 	duk_push_c_function(ctx, js_lv_obj_del, 1);
 	duk_put_global_string(ctx, "lv_obj_del");
+	duk_push_c_function(ctx, js_lv_obj_del_async, 1);
+	duk_put_global_string(ctx, "lv_obj_del_async");
 	duk_push_c_function(ctx, js_lv_label_set_text, 2);
 	duk_put_global_string(ctx, "lv_label_set_text");
 	duk_push_c_function(ctx, js_lv_event_get_target, 1);
