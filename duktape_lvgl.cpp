@@ -265,6 +265,20 @@ static duk_ret_t js_lv_indev_get_point(duk_context *ctx) {
 	return 1;
 }
 
+static duk_ret_t js_lv_snapshot_take(duk_context *ctx) {
+	auto obj = (lv_obj_t *)duk_get_pointer(ctx, 0);
+	auto cf = duk_get_uint(ctx, 1);
+	auto snapshot = lv_snapshot_take(obj, cf);
+	duk_push_pointer(ctx, snapshot);
+	return 1;
+}
+
+static duk_ret_t js_lv_snapshot_free(duk_context *ctx) {
+	auto snapshot = (lv_img_dsc_t *)duk_get_pointer(ctx, 0);
+	lv_snapshot_free(snapshot);
+	return 0;
+}
+
 static duk_ret_t js_lv_color_hex(duk_context *ctx) {
 	auto hex = (uint32_t)duk_get_uint(ctx, 0);
 	auto color = lv_color_hex(hex);
@@ -331,6 +345,10 @@ void duktape_lvgl_install(duk_context *ctx) {
 	duk_put_global_string(ctx, "lv_event_get_indev");
 	duk_push_c_function(ctx, js_lv_indev_get_point, 1);
 	duk_put_global_string(ctx, "lv_indev_get_point");
+	duk_push_c_function(ctx, js_lv_snapshot_take, 2);
+	duk_put_global_string(ctx, "lv_snapshot_take");
+	duk_push_c_function(ctx, js_lv_snapshot_free, 1);
+	duk_put_global_string(ctx, "lv_snapshot_free");
 	duk_push_c_function(ctx, js_lv_color_hex, 1);
 	duk_put_global_string(ctx, "lv_color_hex");
 	duk_push_uint(ctx, LV_EVENT_CLICKED);
@@ -344,6 +362,8 @@ void duktape_lvgl_install(duk_context *ctx) {
 	duktape_lvgl_define_events(ctx);
 	void duktape_lvgl_define_fonts(duk_context * ctx);
 	duktape_lvgl_define_fonts(ctx);
+	void duktape_lvgl_define_color_formats(duk_context * ctx);
+	duktape_lvgl_define_color_formats(ctx);
 
 	duk_push_string(ctx, lvgljs);
 	duk_int_t rc = duk_peval(ctx);
