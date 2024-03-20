@@ -54,4 +54,11 @@ Object.setPrototypeOf(lv.Label.prototype, lv.Obj.prototype);
 lv.Label.prototype.setText = function (text) {
 	lv_label_set_text(this.pointer, text);
 };
+lv.Img = function (parent) {
+	this.pointer = lv_img_create(typeof parent == 'pointer' ? parent : parent.pointer);
+};
+Object.setPrototypeOf(lv.Img.prototype, lv.Obj.prototype);
+lv.Img.prototype.setSrc = function (src) {
+	lv_img_set_src(this.pointer, src);
+};
 )"

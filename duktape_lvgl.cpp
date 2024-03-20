@@ -83,6 +83,15 @@ static duk_ret_t js_lv_label_create(duk_context *ctx) {
 	return 1;
 }
 
+static duk_ret_t js_lv_img_create(duk_context *ctx) {
+	auto parent = (lv_obj_t *)duk_get_pointer(ctx, 0);
+	auto img = lv_img_create(parent);
+	duk_push_pointer(ctx, img);
+	lv_obj_set_user_data(img, ctx);
+	lv_obj_init(img);
+	return 1;
+}
+
 static duk_ret_t js_lv_obj_set_size(duk_context *ctx) {
 	auto obj = (lv_obj_t *)duk_get_pointer(ctx, 0);
 	auto w = (lv_coord_t)duk_get_int(ctx, 1);
@@ -195,6 +204,13 @@ static duk_ret_t js_lv_label_set_text(duk_context *ctx) {
 	return 0;
 }
 
+static duk_ret_t js_lv_img_set_src(duk_context *ctx) {
+	auto img = (lv_obj_t *)duk_get_pointer(ctx, 0);
+	auto src = duk_get_pointer(ctx, 1);
+	lv_img_set_src(img, src);
+	return 0;
+}
+
 static duk_ret_t js_lv_event_get_target(duk_context *ctx) {
 	auto event = (lv_event_t *)duk_get_pointer(ctx, 0);
 	auto target = lv_event_get_target(event);
@@ -259,6 +275,8 @@ void duktape_lvgl_install(duk_context *ctx) {
 	duk_put_global_string(ctx, "lv_btn_create");
 	duk_push_c_function(ctx, js_lv_label_create, 1);
 	duk_put_global_string(ctx, "lv_label_create");
+	duk_push_c_function(ctx, js_lv_img_create, 1);
+	duk_put_global_string(ctx, "lv_img_create");
 	duk_push_c_function(ctx, js_lv_obj_set_size, 3);
 	duk_put_global_string(ctx, "lv_obj_set_size");
 	duk_push_c_function(ctx, js_lv_obj_set_pos, 3);
@@ -283,6 +301,8 @@ void duktape_lvgl_install(duk_context *ctx) {
 	duk_put_global_string(ctx, "lv_obj_del_async");
 	duk_push_c_function(ctx, js_lv_label_set_text, 2);
 	duk_put_global_string(ctx, "lv_label_set_text");
+	duk_push_c_function(ctx, js_lv_img_set_src, 2);
+	duk_put_global_string(ctx, "lv_img_set_src");
 	duk_push_c_function(ctx, js_lv_event_get_target, 1);
 	duk_put_global_string(ctx, "lv_event_get_target");
 	duk_push_c_function(ctx, js_lv_event_get_current_target, 1);
