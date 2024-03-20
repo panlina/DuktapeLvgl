@@ -211,6 +211,20 @@ static duk_ret_t js_lv_img_set_src(duk_context *ctx) {
 	return 0;
 }
 
+static duk_ret_t js_lv_img_set_zoom(duk_context *ctx) {
+	auto img = (lv_obj_t *)duk_get_pointer(ctx, 0);
+	auto zoom = duk_get_uint(ctx, 1);
+	lv_img_set_zoom(img, zoom);
+	return 0;
+}
+
+static duk_ret_t js_lv_img_set_antialias(duk_context *ctx) {
+	auto img = (lv_obj_t *)duk_get_pointer(ctx, 0);
+	auto antialias = duk_get_boolean(ctx, 1);
+	lv_img_set_antialias(img, antialias);
+	return 0;
+}
+
 static duk_ret_t js_lv_event_get_target(duk_context *ctx) {
 	auto event = (lv_event_t *)duk_get_pointer(ctx, 0);
 	auto target = lv_event_get_target(event);
@@ -303,6 +317,10 @@ void duktape_lvgl_install(duk_context *ctx) {
 	duk_put_global_string(ctx, "lv_label_set_text");
 	duk_push_c_function(ctx, js_lv_img_set_src, 2);
 	duk_put_global_string(ctx, "lv_img_set_src");
+	duk_push_c_function(ctx, js_lv_img_set_zoom, 2);
+	duk_put_global_string(ctx, "lv_img_set_zoom");
+	duk_push_c_function(ctx, js_lv_img_set_antialias, 2);
+	duk_put_global_string(ctx, "lv_img_set_antialias");
 	duk_push_c_function(ctx, js_lv_event_get_target, 1);
 	duk_put_global_string(ctx, "lv_event_get_target");
 	duk_push_c_function(ctx, js_lv_event_get_current_target, 1);

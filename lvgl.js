@@ -61,4 +61,10 @@ Object.setPrototypeOf(lv.Img.prototype, lv.Obj.prototype);
 lv.Img.prototype.setSrc = function (src) {
 	lv_img_set_src(this.pointer, src);
 };
+lv.Img.prototype.setZoom = function (zoom) {
+	lv_img_set_zoom(this.pointer, zoom);
+};
+lv.Img.prototype.setAntialias = function (antialias) {
+	lv_img_set_antialias(this.pointer, antialias);
+};
 )"
