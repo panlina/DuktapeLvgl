@@ -285,6 +285,13 @@ static duk_ret_t js_lv_img_cache_invalidate_src(duk_context *ctx) {
 	return 0;
 }
 
+static duk_ret_t js_lv_font_load(duk_context *ctx) {
+	auto fontName = duk_get_string(ctx, 0);
+	auto font = lv_font_load(fontName);
+	duk_push_pointer(ctx, font);
+	return 1;
+}
+
 static duk_ret_t js_lv_color_hex(duk_context *ctx) {
 	auto hex = (uint32_t)duk_get_uint(ctx, 0);
 	auto color = lv_color_hex(hex);
@@ -357,6 +364,8 @@ void duktape_lvgl_install(duk_context *ctx) {
 	duk_put_global_string(ctx, "lv_snapshot_free");
 	duk_push_c_function(ctx, js_lv_img_cache_invalidate_src, 1);
 	duk_put_global_string(ctx, "lv_img_cache_invalidate_src");
+	duk_push_c_function(ctx, js_lv_font_load, 1);
+	duk_put_global_string(ctx, "lv_font_load");
 	duk_push_c_function(ctx, js_lv_color_hex, 1);
 	duk_put_global_string(ctx, "lv_color_hex");
 	duk_push_uint(ctx, LV_EVENT_CLICKED);
