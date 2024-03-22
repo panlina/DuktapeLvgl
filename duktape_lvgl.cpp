@@ -292,6 +292,45 @@ static duk_ret_t js_lv_font_load(duk_context *ctx) {
 	return 1;
 }
 
+static duk_ret_t js_lv_timer_create(duk_context *ctx) {
+	auto period = duk_get_uint(ctx, 0);
+	duk_push_global_stash(ctx);
+	duk_dup(ctx, 1);
+	// [ period, cb, stash, cb]
+	auto user_data = new function<void(lv_timer_t *)>([=](lv_timer_t *timer) {
+		auto user_data = timer->user_data;
+		duk_push_global_stash(ctx);
+		char stashKey[16];
+		sprintf(stashKey, "lv_cb_%x", user_data);
+		duk_get_prop_string(ctx, -1, stashKey);
+		duk_push_pointer(ctx, timer);
+		duk_call(ctx, 1);
+		duk_pop_2(ctx);
+	});
+	char stashKey[16];
+	sprintf(stashKey, "lv_cb_%x", user_data);
+	duk_put_prop_string(ctx, -2, stashKey);
+	// [ period, cb, stash ]
+	auto timer = lv_timer_create([](lv_timer_t *timer) {
+		auto user_data = (function<void(lv_timer_t *)> *)timer->user_data;
+		(*user_data)(timer);
+	}, period, user_data);
+	duk_push_pointer(ctx, timer);
+	return 1;
+}
+
+static duk_ret_t js_lv_timer_del(duk_context *ctx) {
+	auto timer = (lv_timer_t *)duk_get_pointer(ctx, 0);
+	duk_push_global_stash(ctx);
+	auto user_data = (function<void(lv_timer_t *)> *)timer->user_data;
+	char stashKey[16];
+	sprintf(stashKey, "lv_cb_%x", user_data);
+	duk_del_prop_string(ctx, -1, stashKey);
+	delete user_data;
+	lv_timer_del(timer);
+	return 0;
+}
+
 static duk_ret_t js_lv_color_hex(duk_context *ctx) {
 	auto hex = (uint32_t)duk_get_uint(ctx, 0);
 	auto color = lv_color_hex(hex);
@@ -366,6 +405,10 @@ void duktape_lvgl_install(duk_context *ctx) {
 	duk_put_global_string(ctx, "lv_img_cache_invalidate_src");
 	duk_push_c_function(ctx, js_lv_font_load, 1);
 	duk_put_global_string(ctx, "lv_font_load");
+	duk_push_c_function(ctx, js_lv_timer_create, 2);
+	duk_put_global_string(ctx, "lv_timer_create");
+	duk_push_c_function(ctx, js_lv_timer_del, 1);
+	duk_put_global_string(ctx, "lv_timer_del");
 	duk_push_c_function(ctx, js_lv_color_hex, 1);
 	duk_put_global_string(ctx, "lv_color_hex");
 	duk_push_uint(ctx, LV_EVENT_CLICKED);
