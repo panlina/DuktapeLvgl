@@ -34,6 +34,12 @@ lv.Obj.prototype.setStyleTextColor = function (color, selector) {
 lv.Obj.prototype.setStyleTextFont = function (font, selector) {
 	lv_obj_set_style_text_font(this.pointer, font, selector);
 };
+lv.Obj.prototype.addFlag = function (flag) {
+	lv_obj_add_flag(this.pointer, flag);
+};
+lv.Obj.prototype.clearFlag = function (flag) {
+	lv_obj_clear_flag(this.pointer, flag);
+};
 lv.Obj.prototype.addEventCb = function (filter, cb) {
 	lv_obj_add_event_cb(this.pointer, cb, filter);
 };

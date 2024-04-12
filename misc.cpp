@@ -48,6 +48,67 @@ void duktape_lvgl_define_alignments(duk_context *ctx) {
 	duk_put_global_string(ctx, "LV_ALIGN_OUT_RIGHT_BOTTOM");
 }
 
+void duktape_lvgl_define_flags(duk_context *ctx) {
+	duk_push_uint(ctx, LV_OBJ_FLAG_HIDDEN);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_HIDDEN");
+	duk_push_uint(ctx, LV_OBJ_FLAG_CLICKABLE);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_CLICKABLE");
+	duk_push_uint(ctx, LV_OBJ_FLAG_CLICK_FOCUSABLE);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_CLICK_FOCUSABLE");
+	duk_push_uint(ctx, LV_OBJ_FLAG_CHECKABLE);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_CHECKABLE");
+	duk_push_uint(ctx, LV_OBJ_FLAG_SCROLLABLE);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_SCROLLABLE");
+	duk_push_uint(ctx, LV_OBJ_FLAG_SCROLL_ELASTIC);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_SCROLL_ELASTIC");
+	duk_push_uint(ctx, LV_OBJ_FLAG_SCROLL_MOMENTUM);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_SCROLL_MOMENTUM");
+	duk_push_uint(ctx, LV_OBJ_FLAG_SCROLL_ONE);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_SCROLL_ONE");
+	duk_push_uint(ctx, LV_OBJ_FLAG_SCROLL_CHAIN_HOR);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_SCROLL_CHAIN_HOR");
+	duk_push_uint(ctx, LV_OBJ_FLAG_SCROLL_CHAIN_VER);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_SCROLL_CHAIN_VER");
+	duk_push_uint(ctx, LV_OBJ_FLAG_SCROLL_CHAIN);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_SCROLL_CHAIN");
+	duk_push_uint(ctx, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_SCROLL_ON_FOCUS");
+	duk_push_uint(ctx, LV_OBJ_FLAG_SCROLL_WITH_ARROW);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_SCROLL_WITH_ARROW");
+	duk_push_uint(ctx, LV_OBJ_FLAG_SNAPPABLE);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_SNAPPABLE");
+	duk_push_uint(ctx, LV_OBJ_FLAG_PRESS_LOCK);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_PRESS_LOCK");
+	duk_push_uint(ctx, LV_OBJ_FLAG_EVENT_BUBBLE);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_EVENT_BUBBLE");
+	duk_push_uint(ctx, LV_OBJ_FLAG_GESTURE_BUBBLE);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_GESTURE_BUBBLE");
+	duk_push_uint(ctx, LV_OBJ_FLAG_ADV_HITTEST);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_ADV_HITTEST");
+	duk_push_uint(ctx, LV_OBJ_FLAG_IGNORE_LAYOUT);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_IGNORE_LAYOUT");
+	duk_push_uint(ctx, LV_OBJ_FLAG_FLOATING);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_FLOATING");
+	duk_push_uint(ctx, LV_OBJ_FLAG_OVERFLOW_VISIBLE);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_OVERFLOW_VISIBLE");
+	duk_push_uint(ctx, LV_OBJ_FLAG_LAYOUT_1);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_LAYOUT_1");
+	duk_push_uint(ctx, LV_OBJ_FLAG_LAYOUT_2);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_LAYOUT_2");
+	duk_push_uint(ctx, LV_OBJ_FLAG_WIDGET_1);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_WIDGET_1");
+	duk_push_uint(ctx, LV_OBJ_FLAG_WIDGET_2);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_WIDGET_2");
+	duk_push_uint(ctx, LV_OBJ_FLAG_USER_1);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_USER_1");
+	duk_push_uint(ctx, LV_OBJ_FLAG_USER_2);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_USER_2");
+	duk_push_uint(ctx, LV_OBJ_FLAG_USER_3);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_USER_3");
+	duk_push_uint(ctx, LV_OBJ_FLAG_USER_4);
+	duk_put_global_string(ctx, "LV_OBJ_FLAG_USER_4");
+}
+
 void duktape_lvgl_define_events(duk_context *ctx) {
 	duk_push_uint(ctx, LV_EVENT_ALL);
 	duk_put_global_string(ctx, "LV_EVENT_ALL");

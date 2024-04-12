@@ -155,6 +155,20 @@ static duk_ret_t js_lv_obj_set_style_text_font(duk_context *ctx) {
 	return 0;
 }
 
+static duk_ret_t js_lv_obj_add_flag(duk_context *ctx) {
+	auto obj = (lv_obj_t *)duk_get_pointer(ctx, 0);
+	auto flag = duk_get_uint(ctx, 1);
+	lv_obj_add_flag(obj, flag);
+	return 0;
+}
+
+static duk_ret_t js_lv_obj_clear_flag(duk_context *ctx) {
+	auto obj = (lv_obj_t *)duk_get_pointer(ctx, 0);
+	auto flag = duk_get_uint(ctx, 1);
+	lv_obj_clear_flag(obj, flag);
+	return 0;
+}
+
 static duk_ret_t js_lv_obj_add_event_cb(duk_context *ctx) {
 	auto obj = (lv_obj_t *)duk_get_pointer(ctx, 0);
 	auto filter = (lv_event_code_t)duk_get_uint(ctx, 2);
@@ -373,6 +387,10 @@ void duktape_lvgl_install(duk_context *ctx) {
 	duk_put_global_string(ctx, "lv_obj_set_style_text_color");
 	duk_push_c_function(ctx, js_lv_obj_set_style_text_font, 3);
 	duk_put_global_string(ctx, "lv_obj_set_style_text_font");
+	duk_push_c_function(ctx, js_lv_obj_add_flag, 2);
+	duk_put_global_string(ctx, "lv_obj_add_flag");
+	duk_push_c_function(ctx, js_lv_obj_clear_flag, 2);
+	duk_put_global_string(ctx, "lv_obj_clear_flag");
 	duk_push_c_function(ctx, js_lv_obj_add_event_cb, 3);
 	duk_put_global_string(ctx, "lv_obj_add_event_cb");
 	duk_push_c_function(ctx, js_lv_obj_del, 1);
@@ -418,6 +436,8 @@ void duktape_lvgl_install(duk_context *ctx) {
 
 	void duktape_lvgl_define_alignments(duk_context * ctx);
 	duktape_lvgl_define_alignments(ctx);
+	void duktape_lvgl_define_flags(duk_context * ctx);
+	duktape_lvgl_define_flags(ctx);
 	void duktape_lvgl_define_events(duk_context * ctx);
 	duktape_lvgl_define_events(ctx);
 	void duktape_lvgl_define_fonts(duk_context * ctx);
