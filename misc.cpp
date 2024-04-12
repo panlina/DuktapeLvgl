@@ -167,8 +167,6 @@ void duktape_lvgl_define_fonts(duk_context *ctx) {
 }
 
 void duktape_lvgl_define_color_formats(duk_context *ctx) {
-	duk_push_uint(ctx, LV_EVENT_LAYOUT_CHANGED);
-	duk_put_global_string(ctx, "LV_EVENT_LAYOUT_CHANGED");
 	duk_push_uint(ctx, LV_IMG_CF_UNKNOWN);
 	duk_put_global_string(ctx, "LV_IMG_CF_UNKNOWN");
 	duk_push_uint(ctx, LV_IMG_CF_RAW);
