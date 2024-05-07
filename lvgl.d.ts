@@ -1,0 +1,57 @@
+type uint32_t = number;
+type uint16_t = number;
+
+type lv_obj_t = pointer;
+type lv_event_t = pointer;
+type lv_indev_t = pointer;
+type lv_font_t = pointer;
+type lv_img_dsc_t = pointer;
+type lv_timer_t = pointer;
+
+type lv_coord_t = number;
+type lv_align_t = number;
+type lv_style_selector_t = number;
+type lv_color_t = uint16_t;
+type lv_obj_flag_t = number;
+type lv_event_code_t = number;
+type lv_img_cf_t = number;
+type lv_part_t = number;
+
+declare function lv_scr_act(): lv_obj_t;
+declare function lv_layer_top(): lv_obj_t;
+declare function lv_layer_sys(): lv_obj_t;
+declare function lv_obj_create(parent: lv_obj_t): lv_obj_t;
+declare function lv_btn_create(parent: lv_obj_t): lv_obj_t;
+declare function lv_label_create(parent: lv_obj_t): lv_obj_t;
+declare function lv_img_create(parent: lv_obj_t): lv_obj_t;
+declare function lv_obj_set_size(obj: lv_obj_t, w: lv_coord_t, h: lv_coord_t): void;
+declare function lv_obj_set_pos(obj: lv_obj_t, x: lv_coord_t, y: lv_coord_t): void;
+declare function lv_obj_set_align(obj: lv_obj_t, align: lv_align_t): void;
+declare function lv_obj_set_style_border_width(obj: lv_obj_t, value: lv_coord_t, selector: lv_style_selector_t): void;
+declare function lv_obj_set_style_pad_all(obj: lv_obj_t, value: lv_coord_t, selector: lv_style_selector_t): void;
+declare function lv_obj_set_style_bg_color(obj: lv_obj_t, value: lv_color_t, selector: lv_style_selector_t): void;
+declare function lv_obj_set_style_text_color(obj: lv_obj_t, value: lv_color_t, selector: lv_style_selector_t): void;
+declare function lv_obj_set_style_text_font(obj: lv_obj_t, value: lv_font_t, selector: lv_style_selector_t): void;
+declare function lv_obj_add_flag(obj: lv_obj_t, f: lv_obj_flag_t): void;
+declare function lv_obj_clear_flag(obj: lv_obj_t, f: lv_obj_flag_t): void;
+declare function lv_obj_add_event_cb(obj: lv_obj_t, cb: (e: lv_event_t) => void, filter: lv_event_code_t): void;
+declare function lv_obj_del(obj: lv_obj_t): void;
+declare function lv_obj_del_async(obj: lv_obj_t): void;
+declare function lv_label_set_text(obj: lv_obj_t, text: string): void;
+declare function lv_img_set_src(obj: lv_obj_t, src: string): void;
+declare function lv_img_set_zoom(obj: lv_obj_t, zoom: uint16_t): void;
+declare function lv_img_set_antialias(obj: lv_obj_t, antialias: boolean): void;
+declare function lv_event_get_target(e: lv_event_t): lv_obj_t;
+declare function lv_event_get_current_target(e: lv_event_t): lv_obj_t;
+declare function lv_event_get_code(e: lv_event_t): lv_event_code_t;
+declare function lv_event_get_indev(e: lv_event_t): lv_indev_t;
+declare function lv_indev_get_point(indev: lv_indev_t): { x: lv_coord_t, y: lv_coord_t };
+declare function lv_snapshot_take(obj: lv_obj_t, cf: lv_img_cf_t): lv_img_dsc_t;
+declare function lv_snapshot_free(dsc: lv_img_dsc_t): void;
+declare function lv_img_cache_invalidate_src(src: lv_img_dsc_t): void;
+declare function lv_font_load(font_name: string): lv_font_t;
+declare function lv_timer_create(period: uint32_t, cb: (t: lv_timer_t) => void): lv_timer_t;
+declare function lv_timer_del(timer: lv_timer_t): void;
+declare function lv_color_hex(c: uint32_t): lv_color_t;
+
+declare const LV_PART_MAIN: lv_part_t;
