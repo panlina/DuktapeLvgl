@@ -429,8 +429,6 @@ void duktape_lvgl_install(duk_context *ctx) {
 	duk_put_global_string(ctx, "lv_timer_del");
 	duk_push_c_function(ctx, js_lv_color_hex, 1);
 	duk_put_global_string(ctx, "lv_color_hex");
-	duk_push_uint(ctx, LV_EVENT_CLICKED);
-	duk_put_global_string(ctx, "LV_EVENT_CLICKED");
 	duk_push_uint(ctx, LV_PART_MAIN);
 	duk_put_global_string(ctx, "LV_PART_MAIN");
 
